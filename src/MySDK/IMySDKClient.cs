@@ -1,3 +1,5 @@
+using MySDK.Models;
+
 namespace MySDK;
 
 /// <summary>
