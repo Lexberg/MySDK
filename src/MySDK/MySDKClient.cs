@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
-using System.Web;
 using Microsoft.Extensions.Logging;
 using MySDK.Models;
 
@@ -147,16 +146,16 @@ public class MySDKClient : IMySDKClient
         var queryParams = new List<string>();
 
         if (!string.IsNullOrEmpty(request.Query))
-            queryParams.Add($"q={HttpUtility.UrlEncode(request.Query)}");
+            queryParams.Add($"q={Uri.EscapeDataString(request.Query)}");
         
         if (!string.IsNullOrEmpty(request.ProductType))
-            queryParams.Add($"productType={HttpUtility.UrlEncode(request.ProductType)}");
+            queryParams.Add($"productType={Uri.EscapeDataString(request.ProductType)}");
         
         if (!string.IsNullOrEmpty(request.Country))
-            queryParams.Add($"country={HttpUtility.UrlEncode(request.Country)}");
+            queryParams.Add($"country={Uri.EscapeDataString(request.Country)}");
         
         if (!string.IsNullOrEmpty(request.AssortmentGrade))
-            queryParams.Add($"assortmentGrade={HttpUtility.UrlEncode(request.AssortmentGrade)}");
+            queryParams.Add($"assortmentGrade={Uri.EscapeDataString(request.AssortmentGrade)}");
         
         if (request.MinPrice.HasValue)
             queryParams.Add($"minPrice={request.MinPrice.Value}");
