@@ -37,7 +37,7 @@ app.MapGet("/.well-known/mcp.json", () =>
             description = "Tool for searching Norwegian wine catalog and getting wine recommendations from Vinmonopolet",
             version = "1.0.0"
         },
-        servers = new[]
+        servers = new object[]
         {
             new { url = "https://mysdk-ccqv.onrender.com" }
         },
@@ -49,7 +49,7 @@ app.MapGet("/.well-known/mcp.json", () =>
                 {
                     operationId = "search_wines",
                     summary = "Search for wines in the Vinmonopolet catalog",
-                    parameters = new[]
+                    parameters = new object[]
                     {
                         new { name = "query", @in = "query", schema = new { type = "string" }, description = "Search query (wine name, producer, etc.)" },
                         new { name = "productType", @in = "query", schema = new { type = "string" }, description = "Type of product (e.g., Rødvin, Hvitvin)" },
@@ -98,7 +98,7 @@ app.MapGet("/.well-known/mcp.json", () =>
                 {
                     operationId = "get_product_details",
                     summary = "Get detailed information about a specific wine product",
-                    parameters = new[]
+                    parameters = new object[]
                     {
                         new { name = "id", @in = "path", required = true, schema = new { type = "string" }, description = "Product ID" }
                     }
