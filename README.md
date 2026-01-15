@@ -2,6 +2,10 @@
 
 Et .NET SDK for integrering med Vinmonopolet sitt API. Gjør det enkelt å søke etter vinprodukter og få vinforslag.
 
+Prosjektet består av:
+- **MySDK** - Kjerne SDK-bibliotek for direkte integrering
+- **MySDK.Api** - REST API wrapper for deployment til Render/Azure
+
 ## Funksjoner
 
 - ✅ Søk i Vinmonopolets produktkatalog
@@ -11,9 +15,15 @@ Et .NET SDK for integrering med Vinmonopolet sitt API. Gjør det enkelt å søke
 - ✅ Type-sikker HTTP-klient
 - ✅ Dependency injection support
 - ✅ Strukturert logging
-- ✅ Async/await gjennom hele SDKen
+### Som NuGet pakke (for direkte integrering)
+```bash
+dotnet add package VinmonopoletSDK
+```
 
-## Installasjon
+### Som REST API (deployed på Render)
+Bruk den deployede APIen på: `https://your-app.onrender.com`
+
+Se [API dokumentasjon](#api-endpoints) under.Installasjon
 
 ```bash
 dotnet add package VinmonopoletSDK
@@ -156,17 +166,39 @@ var sparklingWines = await client.GetWineRecommendationsAsync(new WineRecommenda
 dotnet build
 ```
 
-## Testing
+## API Endpoints
+
+APIet eksponerer følgende endpoints:
+
+- `GET /api/assortmentgrades` - Hent alle sortimentskategorier
+- `GET /api/products` - Søk produkter (query params: query, productType, country, minPrice, maxPrice, pageSize, page)
+- `GET /api/products/{id}` - Hent produkt etter ID
+- `POST /api/recommendations` - Få vinforslag (body: WineRecommendationRequest JSON)
+
+Swagger dokumentasjon er tilgjengelig på `/swagger` når APIet kjører.
+
+## Kjør API lokalt
 
 ```bash
-dotnet test
+cd src/MySDK.Api
+dotnet run
 ```
+
+API vil være tilgjengelig på http://localhost:5000 og Swagger på http://localhost:5000/swagger
 
 ## Docker
 
 ### Bygg Docker image
 ```bash
 docker build -t vinmonopolet-sdk .
+```
+
+### Kjør lokalt med Docker
+```bash
+docker run -p 8080:8080 -e VINMONOPOLET_API_KEY=din-api-nøkkel vinmonopolet-sdk
+```
+
+API vil være tilgjengelig på http://localhost:8080ker build -t vinmonopolet-sdk .
 ```
 
 ### Kjør lokalt med Docker
