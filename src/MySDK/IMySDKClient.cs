@@ -1,27 +1,27 @@
 namespace MySDK;
 
 /// <summary>
-/// Interface for the SDK client
+/// Interface for the Vinmonopolet SDK client
 /// </summary>
 public interface IMySDKClient
 {
     /// <summary>
-    /// Gets a resource by ID
+    /// Gets all assortment grades (sortiment kategorier)
     /// </summary>
-    Task<T?> GetAsync<T>(string resourceId, CancellationToken cancellationToken = default);
+    Task<AssortmentGradesResponse?> GetAssortmentGradesAsync(CancellationToken cancellationToken = default);
     
     /// <summary>
-    /// Creates a new resource
+    /// Gets wine products from the catalog
     /// </summary>
-    Task<TResponse?> CreateAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default);
+    Task<ProductsResponse?> GetProductsAsync(ProductSearchRequest? request = null, CancellationToken cancellationToken = default);
     
     /// <summary>
-    /// Updates an existing resource
+    /// Gets a specific product by ID
     /// </summary>
-    Task<TResponse?> UpdateAsync<TRequest, TResponse>(string resourceId, TRequest request, CancellationToken cancellationToken = default);
+    Task<Product?> GetProductByIdAsync(string productId, CancellationToken cancellationToken = default);
     
     /// <summary>
-    /// Deletes a resource by ID
+    /// Gets wine recommendations based on criteria
     /// </summary>
-    Task<bool> DeleteAsync(string resourceId, CancellationToken cancellationToken = default);
+    Task<List<Product>> GetWineRecommendationsAsync(WineRecommendationRequest request, CancellationToken cancellationToken = default);
 }

@@ -5,13 +5,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>MySDK</PackageId>
+    <PackageId>VinmonopoletSDK</PackageId>
     <Version>1.0.0</Version>
     <Authors>Martin Lexberg</Authors>
     <Company>MyCompany</Company>
-    <Description>A boilerplate SDK for building integrations</Description>
-    <PackageTags>sdk;client;api</PackageTags>
-    <RepositoryUrl>https://github.com/YOUR_USERNAME/MySDK</RepositoryUrl>
+    <Description>SDK for integrating with Vinmonopolet API - Norwegian wine monopoly product catalog</Description>
+    <PackageTags>sdk;vinmonopolet;wine;norway;api</PackageTags>
+    <RepositoryUrl>https://github.com/Lexberg/MySDK</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 

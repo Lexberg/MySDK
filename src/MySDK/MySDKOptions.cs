@@ -1,17 +1,17 @@
 namespace MySDK;
 
 /// <summary>
-/// Configuration options for the SDK
+/// Configuration options for the Vinmonopolet SDK
 /// </summary>
 public class MySDKOptions
 {
     /// <summary>
-    /// Base URL for the API
+    /// Base URL for the Vinmonopolet API (default: https://apis.vinmonopolet.no)
     /// </summary>
-    public string BaseUrl { get; set; } = string.Empty;
+    public string BaseUrl { get; set; } = "https://apis.vinmonopolet.no";
     
     /// <summary>
-    /// API key for authentication
+    /// API subscription key from Azure API Management (Ocp-Apim-Subscription-Key header)
     /// </summary>
     public string ApiKey { get; set; } = string.Empty;
     
