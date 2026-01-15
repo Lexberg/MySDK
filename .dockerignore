@@ -1,0 +1,31 @@
+# Build artifacts
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+LICENSE
+
+# Tests
+**/tests/
+**/*Tests/
+
+# IDE
+.vscode/
+.idea/
+*.sln.DotSettings.user
+
+# OS
+.DS_Store
+Thumbs.db

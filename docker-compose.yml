@@ -1,0 +1,12 @@
+services:
+  mysdk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - MySDK__BaseUrl=https://apis.vinmonopolet.no
+      - MySDK__ApiKey=${VINMONOPOLET_API_KEY}
+    restart: unless-stopped

@@ -162,6 +162,35 @@ dotnet build
 dotnet test
 ```
 
+## Docker
+
+### Bygg Docker image
+```bash
+docker build -t vinmonopolet-sdk .
+```
+
+### Kjør lokalt med Docker
+```bash
+docker run -p 8080:8080 -e MySDK__ApiKey=din-api-nøkkel vinmonopolet-sdk
+```
+
+### Docker Compose
+```bash
+docker-compose up
+```
+
+## Deployment til Render
+
+Se [RENDER_DEPLOY.md](RENDER_DEPLOY.md) for detaljert guide til deployment på Render.
+
+**Rask start:**
+1. Push koden til GitHub
+2. Opprett ny Web Service på Render
+3. Koble til GitHub repository
+4. Velg "Docker" som environment
+5. Legg til `VINMONOPOLET_API_KEY` environment variable
+6. Deploy!
+
 ## Lisens
 
 MIT
