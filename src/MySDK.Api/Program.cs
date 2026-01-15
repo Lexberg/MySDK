@@ -28,65 +28,80 @@ app.MapGet("/", () => Results.Redirect("/swagger"));
 // MCP Manifest endpoint for tool discovery
 app.MapGet("/.well-known/mcp.json", () =>
 {
-    var manifest = new McpManifest
+    var manifest = new
     {
-        Server = new ServerInfo
+        openapi = "3.1.0",
+        info = new
         {
-            Name = "Vinmonopolet SDK",
-            Description = "Tool for searching Norwegian wine catalog and getting wine recommendations from Vinmonopolet",
-            Version = "1.0.0"
+            title = "Vinmonopolet SDK",
+            description = "Tool for searching Norwegian wine catalog and getting wine recommendations from Vinmonopolet",
+            version = "1.0.0"
         },
-        Tools = new List<Tool>
+        servers = new[]
         {
-            new Tool
+            new { url = "https://mysdk-ccqv.onrender.com" }
+        },
+        paths = new Dictionary<string, object>
+        {
+            ["/api/products"] = new
             {
-                Name = "search_wines",
-                Description = "Search for wines in the Vinmonopolet catalog. Can filter by query text, product type, country, and price range.",
-                InputSchema = new ToolInputSchema
+                get = new
                 {
-                    Type = "object",
-                    Properties = new Dictionary<string, PropertySchema>
+                    operationId = "search_wines",
+                    summary = "Search for wines in the Vinmonopolet catalog",
+                    parameters = new[]
                     {
-                        ["query"] = new PropertySchema { Type = "string", Description = "Search query (wine name, producer, etc.)" },
-                        ["productType"] = new PropertySchema { Type = "string", Description = "Type of product (e.g., Rødvin, Hvitvin, Musserende)" },
-                        ["country"] = new PropertySchema { Type = "string", Description = "Country of origin" },
-                        ["minPrice"] = new PropertySchema { Type = "number", Description = "Minimum price in NOK" },
-                        ["maxPrice"] = new PropertySchema { Type = "number", Description = "Maximum price in NOK" },
-                        ["pageSize"] = new PropertySchema { Type = "number", Description = "Number of results to return", Default = 20 }
+                        new { name = "query", @in = "query", schema = new { type = "string" }, description = "Search query (wine name, producer, etc.)" },
+                        new { name = "productType", @in = "query", schema = new { type = "string" }, description = "Type of product (e.g., Rødvin, Hvitvin)" },
+                        new { name = "country", @in = "query", schema = new { type = "string" }, description = "Country of origin" },
+                        new { name = "minPrice", @in = "query", schema = new { type = "number" }, description = "Minimum price in NOK" },
+                        new { name = "maxPrice", @in = "query", schema = new { type = "number" }, description = "Maximum price in NOK" },
+                        new { name = "pageSize", @in = "query", schema = new { type = "integer", @default = 20 }, description = "Number of results" }
                     }
                 }
             },
-            new Tool
+            ["/api/recommendations"] = new
             {
-                Name = "get_wine_recommendations",
-                Description = "Get wine recommendations based on criteria like wine type, food pairing, taste profile, and price range.",
-                InputSchema = new ToolInputSchema
+                post = new
                 {
-                    Type = "object",
-                    Properties = new Dictionary<string, PropertySchema>
+                    operationId = "get_wine_recommendations",
+                    summary = "Get wine recommendations based on criteria",
+                    requestBody = new
                     {
-                        ["wineType"] = new PropertySchema { Type = "string", Description = "Type of wine (red, white, rosé, sparkling)" },
-                        ["foodPairing"] = new PropertySchema { Type = "string", Description = "Food to pair with (e.g., fish, beef, pasta, cheese)" },
-                        ["country"] = new PropertySchema { Type = "string", Description = "Country of origin" },
-                        ["taste"] = new PropertySchema { Type = "string", Description = "Taste profile (dry, sweet, fruity, etc.)" },
-                        ["minPrice"] = new PropertySchema { Type = "number", Description = "Minimum price in NOK" },
-                        ["maxPrice"] = new PropertySchema { Type = "number", Description = "Maximum price in NOK" },
-                        ["limit"] = new PropertySchema { Type = "number", Description = "Number of recommendations", Default = 10 }
+                        required = true,
+                        content = new
+                        {
+                            applicationJson = new
+                            {
+                                schema = new
+                                {
+                                    type = "object",
+                                    properties = new Dictionary<string, object>
+                                    {
+                                        ["wineType"] = new { type = "string", description = "Type of wine (red, white, rosé, sparkling)" },
+                                        ["foodPairing"] = new { type = "string", description = "Food to pair with (e.g., fish, beef, pasta)" },
+                                        ["country"] = new { type = "string", description = "Country of origin" },
+                                        ["taste"] = new { type = "string", description = "Taste profile (dry, sweet, etc.)" },
+                                        ["minPrice"] = new { type = "number", description = "Minimum price in NOK" },
+                                        ["maxPrice"] = new { type = "number", description = "Maximum price in NOK" },
+                                        ["limit"] = new { type = "integer", @default = 10, description = "Number of recommendations" }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             },
-            new Tool
+            ["/api/products/{id}"] = new
             {
-                Name = "get_product_details",
-                Description = "Get detailed information about a specific wine product by ID.",
-                InputSchema = new ToolInputSchema
+                get = new
                 {
-                    Type = "object",
-                    Properties = new Dictionary<string, PropertySchema>
+                    operationId = "get_product_details",
+                    summary = "Get detailed information about a specific wine product",
+                    parameters = new[]
                     {
-                        ["productId"] = new PropertySchema { Type = "string", Description = "The product ID" }
-                    },
-                    Required = new List<string> { "productId" }
+                        new { name = "id", @in = "path", required = true, schema = new { type = "string" }, description = "Product ID" }
+                    }
                 }
             }
         }
@@ -95,7 +110,6 @@ app.MapGet("/.well-known/mcp.json", () =>
     return Results.Ok(manifest);
 })
 .WithName("McpManifest")
-.WithOpenApi()
 .ExcludeFromDescription();
 
 app.MapGet("/api/assortmentgrades", async (IMySDKClient client, CancellationToken ct) =>
